@@ -41,10 +41,10 @@ int main(void)
     unsigned int adc_read;   
     // extern void PWM_CONFIGURATION(int module, int divisor,  int freq, int f_clk, int duty_cycle)
     while (1){
-        ADC1 -> PSSI |= (1 << 3); //| (1 << 0);
-        while ((ADC1 -> RIS & 8) == 0);
-        adc_read = ADC1 -> SSFIFO3;
-        ADC1 -> ISC = 8; // Clearing 0b1000
+        ADC0 -> PSSI |= (1 << 3); //| (1 << 0);
+        while ((ADC0 -> RIS & 8) == 0);
+        adc_read = ADC0 -> SSFIFO3;
+        ADC0 -> ISC = 8; // Clearing 0b1000
         if (adc_read >= 2048){
             GPIOF -> DATA |= (1 << 1); 
         }
