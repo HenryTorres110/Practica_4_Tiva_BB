@@ -44,14 +44,14 @@ int main(void)
     unsigned int array[10];
     // extern void PWM_CONFIGURATION(int module, int divisor,  int freq, int f_clk, int duty_cycle)
     while (1){
-        ADC1 -> PSSI |= (1 << 0); //| (1 << 0);
-        while ((ADC1 -> RIS & 1) == 0);
+        ADC1 -> PSSI = 0x00000001; //| (1 << 0);
+        while ((ADC1 -> RIS & 0x01) == 0){};
         array[0] = ADC1 -> SSFIFO0 & 0xFFF;
         array[1] = ADC1 -> SSFIFO0 & 0xFFF;
         array[2] = ADC1 -> SSFIFO0 & 0xFFF;
         array[3] = ADC1 -> SSFIFO0 & 0xFFF;
         array[4] = ADC1 -> SSFIFO0 & 0xFFF;
-        ADC1 -> ISC = 1; // Clearing 0b0001
+        ADC1 -> ISC = 0x0001; // Clearing 0b0001
         //sprintf(ARREGLO, "%u\n", array[1]);
         //printString(ARREGLO);
         if (array[0] < 2040){
