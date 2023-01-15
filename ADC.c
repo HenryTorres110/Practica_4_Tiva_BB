@@ -34,14 +34,14 @@ extern void ADC_CONFIGURATION(void){
 } 
 
 extern void SEQ_CONFIGURATION_0(void){
-    ADC1 -> SSPRI = (0x0 << 0);
+    ADC1 -> SSPRI = 0x3210;
     ADC1 -> ACTSS &= ~(0x0F); 
     ADC1 -> EMUX |= 0x0000;
     ADC1 -> SSMUX0 |= 0x000B8765; 
-    ADC1 -> SSCTL0 |= 0x00064444; //0x66666; 
+    ADC1 -> SSCTL0 |= (1 << 17)| (1 << 18); //0x00064444; //0x66666; 
     ADC1 -> PC = 0x7; 
-    ADC1 -> IM |= (0xf << 16) | (0xf << 0); 
-    ADC1 -> ACTSS |= (1 << 0); 
+    ADC1 -> IM &= ~(0x0001); 
+    ADC1 -> ACTSS |= (1 << 0) | (0 << 1) | (0 << 2) | (0 << 3); 
     ADC1 -> ISC = 1;
     //ADC0 -> ACTSS = ~(1 << 3); 
     //ADC0 -> EMUX &= 0x0000F000; 
@@ -51,4 +51,24 @@ extern void SEQ_CONFIGURATION_0(void){
     //ADC0 -> IM = (1 << 3); 
     //ADC0 -> ACTSS |= (1 << 3); 
     //ADC0 -> ISC = 8; 
+}
+extern void ADC_ISR_SEQ_0(uint32_t data[5]){
+    ADC1 -> PSSI = 0x00000001; //| (1 << 0);
+        while ((ADC1 -> RIS & 0x01) == 0){};
+        data[0] = ADC1 -> SSFIFO0 & 0xFFF;
+        data[1] = ADC1 -> SSFIFO0 & 0xFFF;
+        data[2] = ADC1 -> SSFIFO0 & 0xFFF;
+        data[3] = ADC1 -> SSFIFO0 & 0xFFF;
+        data[4] = ADC1 -> SSFIFO0 & 0xFFF;
+        ADC1 -> ISC = 0x0001; // Clearing 0b0001
+        //sprintf(ARREGLO, "%u\n", array[1]);
+        //printString(ARREGLO);
+        if (data[0] < 2040){
+            GPIOF -> DATA |= (1 << 1);
+            GPIOF -> DATA &= ~(1 << 2); 
+        }
+        else if (data[0] > 2040){
+            GPIOF -> DATA &= ~(1 << 1);
+            GPIOF -> DATA |= (1 << 2);  
+        }
 }
