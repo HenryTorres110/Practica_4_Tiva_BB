@@ -2,6 +2,7 @@
 #ifndef LIB_INCLUDE_H_
 #define LIB_INCLUDE_H_
 
+#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>

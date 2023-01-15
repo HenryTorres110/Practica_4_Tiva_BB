@@ -28,8 +28,6 @@ extern void Configurar_UART0(void)
     //Disable UART0 UART Control (UARTCTL) pag.918
     UART0->CTL = (1<<0) | (1<<8) | (1<<9);
 
-
-
 }
 
 extern void UART_2_CONFIG(void){
@@ -71,8 +69,8 @@ extern char readChar(void)
 }
 extern void printChar(char c)
 {
-    while((UART2->FR & (1<<5)) != 0 );
-    UART2->DR = c;
+    while((UART0->FR & (1<<5)) != 0 );
+    UART0->DR = c;
 }
 extern void printString(char *string)
 {

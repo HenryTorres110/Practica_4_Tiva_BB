@@ -5,6 +5,12 @@
         "include.h": "c",
         "tm4c123gh6pm.h": "c",
         "core_cm4.h": "c",
-        "uart.h": "c"
+        "uart.h": "c",
+        "math.h": "c",
+        "stdio.h": "c",
+        "stdio_s.h": "c",
+        "stdbool.h": "c",
+        "stdlib.h": "c",
+        "string.h": "c"
     }
 }

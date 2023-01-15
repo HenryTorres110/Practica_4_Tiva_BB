@@ -1,7 +1,4 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
     {
@@ -11,7 +8,7 @@
     "targetArchitecture": "arm",
     "filterStderr": true,
     "serverStarted": "Info\\ :\\ [\\w\\d\\.]*:\\ hardware",
-    "program": "C:\\Users\\luish\\Desktop\\8vo_Semestre\\Microcontroladores\\Practica_4_Tiva_Chica\\gcc\\main.axf",
+    "program": "C:\\Users\\luish\\Desktop\\UAQ_Semestres\\8vo_Semestre\\Microcontroladores\\Practica_4_Tiva_Chica\\gcc\\main.axf",
     "args": [],
     "stopAtEntry": false,
     "cwd": "${workspaceRoot}",
@@ -20,7 +17,7 @@
     "MIMode": "gdb",
     "setupCommands": [
     { "text" : "target extended-remote :3333"},
-    { "text" : "load C:/Users/luish/Desktop/8vo_Semestre/Microcontroladores/Practica_4_Tiva_Chica/gcc/main.axf"}
+    { "text" : "load C:/Users/luish/Desktop/UAQ_Semestres/8vo_Semestre/Microcontroladores/Practica_4_Tiva_Chica/gcc/main.axf"}
     ]
     }
     ]
