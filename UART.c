@@ -69,8 +69,8 @@ extern char readChar(void)
 }
 extern void printChar(char c)
 {
-    while((UART0->FR & (1<<5)) != 0 );
-    UART0->DR = c;
+    while((UART2->FR & (1<<5)) != 0 );
+    UART2->DR = c;
 }
 extern void printString(char *string)
 {

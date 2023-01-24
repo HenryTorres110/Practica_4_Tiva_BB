@@ -14,13 +14,13 @@ extern void ADC_CONFIGURATION(void){
     GPIOE -> DEN = ~(1 << 2) | ~(1 << 5); //~0x3F;
     GPIOE -> AMSEL = (1 << 2) | (1 << 5); //0x3F; 
 
-    GPIOD -> DIR &= ~(1 << 2); // AIN5 PD2
+    /*GPIOD -> DIR &= ~(1 << 2); // AIN5 PD2
     GPIOD -> DIR &= ~(1 << 1); // AIN6 PD1
     GPIOD -> DIR &= ~(1 << 0); // AIN7 PD0
 
     GPIOD -> AFSEL = (1 << 0) | (1 << 1)| (1 << 2);
     GPIOD -> DEN = ~(1 << 0) | ~(1 << 1) | ~(1 << 2); 
-    GPIOD -> AMSEL = (1 << 0) | (1 << 1) | (1 << 2);  
+    GPIOD -> AMSEL = (1 << 0) | (1 << 1) | (1 << 2);*/  
 
     GPIOB -> DIR &= ~(1 << 5); // AIN11 PB5
     GPIOB -> AFSEL =  (1 << 5);
@@ -32,25 +32,27 @@ extern void ADC_CONFIGURATION(void){
     GPIOF -> DIR = 0xff; // Output
     GPIOF -> DATA = (1 << 1); 
 } 
-
+extern void SEQ_CONFIGURATION_3(void){
+    ADC0 -> SSPRI = 0x3210;
+    ADC0 -> ACTSS = ~(0x0F); //~0x9;
+    ADC0 -> EMUX |= 0x0000;
+    ADC0 -> SSMUX3 |= 1; // AIN1 PE2
+    ADC0 -> SSCTL3 |= 0x6; //0b0110;
+    ADC0 -> PC = 0x7; // 1 Msps
+    ADC0 -> IM &= (1 << 3);  //| (1 << 0);
+    ADC0 ->ACTSS |= (1 << 3);//0x9;
+    ADC0 ->ISC = 8;
+}
 extern void SEQ_CONFIGURATION_0(void){
     ADC1 -> SSPRI = 0x3210;
     ADC1 -> ACTSS &= ~(0x0F); 
     ADC1 -> EMUX |= 0x0000;
-    ADC1 -> SSMUX0 |= 0x000B8765; 
-    ADC1 -> SSCTL0 |= (1 << 17)| (1 << 18); //0x00064444; //0x66666; 
+    ADC1 -> SSMUX0 |= 0x00000B81; 
+    ADC1 -> SSCTL0 |= 0x00000644;//(1 << 17)| (1 << 18); //0x00064444; //0x66666; 
     ADC1 -> PC = 0x7; 
     ADC1 -> IM &= ~(0x0001); 
-    ADC1 -> ACTSS |= (1 << 0) | (0 << 1) | (0 << 2) | (0 << 3); 
-    ADC1 -> ISC = 1;
-    //ADC0 -> ACTSS = ~(1 << 3); 
-    //ADC0 -> EMUX &= 0x0000F000; 
-    //ADC0 -> SSMUX3 = 1; 
-    //ADC0 -> SSCTL3 = 0x6; 
-    //ADC0 -> PC = 0x7; 
-    //ADC0 -> IM = (1 << 3); 
-    //ADC0 -> ACTSS |= (1 << 3); 
-    //ADC0 -> ISC = 8; 
+    ADC1 -> ACTSS |= (1 << 0); 
+    ADC1 -> ISC = 1; 
 }
 extern void ADC_ISR_SEQ_0(uint32_t data[5]){
     ADC1 -> PSSI = 0x00000001; //| (1 << 0);
@@ -58,8 +60,8 @@ extern void ADC_ISR_SEQ_0(uint32_t data[5]){
         data[0] = ADC1 -> SSFIFO0 & 0xFFF;
         data[1] = ADC1 -> SSFIFO0 & 0xFFF;
         data[2] = ADC1 -> SSFIFO0 & 0xFFF;
-        data[3] = ADC1 -> SSFIFO0 & 0xFFF;
-        data[4] = ADC1 -> SSFIFO0 & 0xFFF;
+        //data[3] = ADC1 -> SSFIFO0 & 0xFFF;
+        //data[4] = ADC1 -> SSFIFO0 & 0xFFF;
         ADC1 -> ISC = 0x0001; // Clearing 0b0001
         //sprintf(ARREGLO, "%u\n", array[1]);
         //printString(ARREGLO);
@@ -71,4 +73,10 @@ extern void ADC_ISR_SEQ_0(uint32_t data[5]){
             GPIOF -> DATA &= ~(1 << 1);
             GPIOF -> DATA |= (1 << 2);  
         }
+}
+extern void ADC_ISR_SEQ_3(uint32_t data[5]){
+    ADC0 -> PSSI |= (1 << 3); //| (1 << 0);
+    while ((ADC0 -> RIS & 8) == 0);
+    data[0] = ADC0 -> SSFIFO3 & 0xFFFF;
+    ADC0 -> ISC = 8; // Clearing 0b1000
 }

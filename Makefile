@@ -89,7 +89,7 @@ ${COMPILER}/main.axf: main.ld
 SCATTERgcc_main=main.ld
 ENTRY_main=ResetISR
 CFLAGSgcc=-DTARGET_IS_TM4C123_RB1
-
+LDFLAGS += -u _printf_float
 #
 # Include the automatically generated dependency files.
 #

@@ -11,5 +11,6 @@
 extern void ADC_CONFIGURATION(void);
 extern void SEQ_CONFIGURATION_0(void);
 extern void ADC_ISR_SEQ_0(uint32_t data[5]);
+extern void ADC_ISR_SEQ_3(uint32_t data[1]);
 
 #endif /* ADC_ADC_H_ */
